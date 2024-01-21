@@ -16,6 +16,6 @@ int main(int argc, char* args[])
     //Parte final
     janela.loopjanela();
     janela.limpar();
-    
+    //fim
     return 0;
 }
