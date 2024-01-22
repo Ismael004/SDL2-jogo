@@ -1,40 +1,43 @@
 #pragma once
 
-#include <map>
 #include <string>
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
 
-using namespace std;
-
-class GerenciadorTexture
+class TextureManager
 {
 public:
-//Static são variáveis que não são duplicados nos objetos da classe
-    static GerenciadorTexture* Instance()
-    {
-        if(s_pInstance == 0){
-            s_pInstance = new GerenciadorTexture();
-        }
-        return s_pInstance;
-    }
-    bool carregarTextura(string fileName, string id, SDL_Renderer* pRenderizador);
 
-    void desenhar(string id, int x, int y, int width, int height, SDL_Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void desenhoFrame(string id, int x, int y, int width, int height,
-    int currentRow, int currentFramem, SDL_Renderer* pRenderizador, 
-    SDL_RendererFlip flip = SDL_FLIP_NONE);
+       static TextureManager* Instance()
+       {
+              if (instance == 0)
+              {
+                     instance = new TextureManager();
+              }
 
-    void limparTextura(string id);
+              return instance;
+       }
 
-private: 
-    map<string, SDL_Texture*> m_textureMap;
-    GerenciadorTexture(){};
-    ~GerenciadorTexture();
+       bool load(std::string fileName, std::string id, SDL_Renderer* renderer);
 
-    static GerenciadorTexture* s_pInstance;
+       void draw(std::string id, int x, int y, int w, int h, double scale, double r, SDL_Renderer* renderer, 
+            SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+       void drawFrame(std::string id, int x, int y, int w, int h, double scale, int currentRow, int currentFrame, double r, 
+            SDL_Renderer* renderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+       void clearFromTextureMap(std::string id);
+
+       std::map<std::string, SDL_Texture*> textureMap;
+
+private:
+
+       static TextureManager* instance;
+
+       TextureManager(){}
+       ~TextureManager(){}
 
 };
 
-typedef GerenciadorTexture TheGerenciadorTexture();
+typedef TextureManager _TextureManager;

@@ -1,61 +1,69 @@
 #include "gerenciador-de-Texture.h"
+#include <iostream>
 
-GerenciadorTexture::~GerenciadorTexture(){}
-GerenciadorTexture *Gerenciador::s_pInstance = 0;
+TextureManager* TextureManager::instance = 0;
 
-bool GerenciadorTexture::carregarTextura(string fileName, string id, SDL_Renderer* pRenderizador){
-    SDL_Surface* pTempSurface = IMG_load(fileName.c_str());
-    if(pTempSurface == 0)
-    {
-        std::cout << "erro ao carregar a pTempSurface" << fileName << endl;
-        return false;
-    }
+bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer* renderer)
+{
+       SDL_Surface* tempSurf = IMG_Load(fileName.c_str());
 
-    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRenderizador,pTempSurface);
-    SDL_FreeSurface(pTempSurface);
+       if (tempSurf == 0)
+       {
+              std::cout << "could not load image named: '" << fileName.c_str() << "'!!!" << std::endl;
+              return false;
+       }
 
-    if(pTexture == 0){
-        std::cout << "Erro ao criar a textura" << fileName << endl;
-        return false;
-    }
+       SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tempSurf);
 
-    m_textureMap[id] = pTexture;
-    return true;
+       SDL_FreeSurface(tempSurf);
+
+       if (texture != 0)
+       {
+              std::cout << "Texture loaded successfully... ('" << fileName.c_str() << "')" << std::endl;
+              textureMap[id] = texture;
+              return true;
+       }
+
+       std::cout << "Could not create texture from surface!!! ('" << fileName.c_str() << "')" << std::endl;
+
+       return false;
 }
 
-void GerenciadorTexture::desenhar(string id, int x, int y, int width, int height, SDL_Renderer* pRenderizador, SDL_RendererFlip flip)
+void TextureManager::draw(std::string id, int x, int y, int w, int h, double scale, double r, SDL_Renderer* renderer, 
+       SDL_RendererFlip flip)
 {
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
+       SDL_Rect srcRect, destRect;
 
-    srcRect.x = 0;
-    srcRect.y = 0;
+       srcRect.x = 0;
+       srcRect.y = 0;
+       srcRect.w = destRect.w = w;
+       srcRect.h = destRect.h = h;
+       destRect.x = x;
+       destRect.y = y;
+       destRect.w *= scale;
+       destRect.h *= scale;
 
-    srcRect.w = destRect.w = width;
-    srcRect.w = destRect.h = height;
-    destRect.x = x;
-    destRect.y = y;
-
-    SDL_RenderCopyEx(pRenderizador, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
+       SDL_RenderCopyEx(renderer, textureMap[id], &srcRect, &destRect, r, NULL, flip);
 }
 
-void GerenciadorTexture::desenhoFrame(string id, int x, int y, int width, int height,
-    int currentRow, int currentFrame, SDL_Renderer* pRenderizador, 
-    SDL_RendererFlip flip = SDL_FLIP_NONE)
-    {
-        SDL_Rect srcRect;
-        SDL_Rect destRect;
-
-        srcRect.x = width * currentFrame;
-        srcRect.y = height * (currentRow - 1);
-        srcRect.w = destRect.w = width;
-        src.h = destRect.h = height;
-        destRect.x = x;
-        destRect.y = y;
-
-        SDL_RenderCopyEx(pRenderizador, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
-    }
-void GerenciadorTexture::limparTextura(string id)
+void TextureManager::drawFrame(std::string id, int x, int y, int w, int h, double scale, int currentRow, 
+       int currentFrame, double r, SDL_Renderer* renderer, SDL_RendererFlip flip)
 {
-    m_textureMap.erase(id);
+       SDL_Rect srcRect, destRect;
+
+       srcRect.x = w * currentFrame;
+       srcRect.y = h * currentRow;
+       srcRect.w = destRect.w = w;
+       srcRect.h = destRect.h = h;
+       destRect.x = x;
+       destRect.y = y;
+       destRect.w *= scale;
+       destRect.h *= scale;
+
+       SDL_RenderCopyEx(renderer, textureMap[id], &srcRect, &destRect, r, NULL, flip);
+}
+
+void TextureManager::clearFromTextureMap(std::string id)
+{
+       textureMap.erase(id);
 }

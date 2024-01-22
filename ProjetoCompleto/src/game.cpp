@@ -1,5 +1,8 @@
 #include "game.h"
 #include <iostream>
+#include "gerenciador-de-Texture.h"
+#include "gerenciador-de-Texture.cpp"
+
 
 
 
@@ -23,8 +26,13 @@ void CriarJanela::criar(const char *titulo, int tamW, int tamH)
 }
 void CriarJanela::claro()
 {
-    SDL_SetRenderDrawColor(renderizador, 72, 61, 139, 1);
-    SDL_RenderClear(renderizador);
+   
+    TextureManager::Instance()->load("src/teste.png", "test", renderizador);
+    TextureManager::Instance()->draw("test", 100, 100, 128, 128, 1, 0, renderizador);
+    SDL_RenderPresent(renderizador);  // Chame SDL_RenderPresent depois de renderizar a textura
+    SDL_RenderClear(renderizador);     // Limpe o renderizador antes de renderizar novamente
+
+
 }
 
 
@@ -45,7 +53,7 @@ void CriarJanela::loopjanela()
 
 void CriarJanela::tela()
 {
-    SDL_RenderPresent(renderizador);
+    
 }
 
 void CriarJanela::limpar()
