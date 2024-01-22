@@ -27,15 +27,9 @@ void CriarJanela::criar(const char *titulo, int tamW, int tamH)
 void CriarJanela::claro()
 {
    
-    TextureManager::Instance()->load("src/teste.png", "test", renderizador);
-    TextureManager::Instance()->draw("test", 100, 100, 128, 128, 1, 0, renderizador);
-    SDL_RenderPresent(renderizador);  // Chame SDL_RenderPresent depois de renderizar a textura
-    SDL_RenderClear(renderizador);     // Limpe o renderizador antes de renderizar novamente
-
+    SDL_RenderClear(renderizador);
 
 }
-
-
 
 void CriarJanela::loopjanela()
 {
@@ -53,7 +47,7 @@ void CriarJanela::loopjanela()
 
 void CriarJanela::tela()
 {
-    
+    SDL_RenderPresent(renderizador);
 }
 
 void CriarJanela::limpar()
