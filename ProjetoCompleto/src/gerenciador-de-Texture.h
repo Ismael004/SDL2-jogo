@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 using namespace std;
 
@@ -20,11 +21,12 @@ public:
     }
     bool carregarTextura(string fileName, string id, SDL_Renderer* pRenderizador);
 
-    void desenhar(string in, int x, int y, int width, int height,
+    void desenhar(string id, int x, int y, int width, int height, SDL_Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void desenhoFrame(string id, int x, int y, int width, int height,
     int currentRow, int currentFramem, SDL_Renderer* pRenderizador, 
     SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    void limparTexura(string id);
+    void limparTextura(string id);
 
 private: 
     map<string, SDL_Texture*> m_textureMap;
