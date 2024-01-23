@@ -1,4 +1,4 @@
-#include "gerenciador-de-Texture.h"
+#include "TextureManager.h"
 #include <iostream>
 
 TextureManager* TextureManager::instance = 0;

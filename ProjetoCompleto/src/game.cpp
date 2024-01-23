@@ -1,14 +1,8 @@
 #include "game.h"
 #include <iostream>
-#include "gerenciador-de-Texture.h"
-#include "gerenciador-de-Texture.cpp"
-
-
-
-
+#include <SDL2/SDL_image.h>
 const int SCREEN_WIDTH = 512;
 const int SCREEN_HEIGHT = 512;
-
 
 CriarJanela::CriarJanela(){}
 CriarJanela::~CriarJanela(){}
@@ -23,11 +17,19 @@ void CriarJanela::criar(const char *titulo, int tamW, int tamH)
     }
 
     renderizador = SDL_CreateRenderer(janela, -1, SDL_RENDERER_ACCELERATED);
+    
+    m_textureManager->load("res/fundo.png", "teste", renderizador);
+    //m_textureManager::Instance()->load("src/teste.png","teste", renderizador);
 }
 void CriarJanela::claro()
 {
-   
     SDL_RenderClear(renderizador);
+    m_textureManager->draw("teste", 0,0, 128, 82, 1.0, 0.0, renderizador, SDL_FLIP_HORIZONTAL);
+
+    m_currentFrame = 60;
+
+    m_textureManager->drawFrame("teste",100,100,128,82, 1.0,0.0,
+    1, m_currentFrame, renderizador);
 
 }
 
@@ -47,6 +49,7 @@ void CriarJanela::loopjanela()
 
 void CriarJanela::tela()
 {
+    m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
     SDL_RenderPresent(renderizador);
 }
 

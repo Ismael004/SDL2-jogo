@@ -4,6 +4,7 @@
 #include "game.h"
 #include "game.cpp"
 
+
 CriarJanela janela;
 
 int main(int argc, char* args[])
