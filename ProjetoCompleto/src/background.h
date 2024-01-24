@@ -3,14 +3,13 @@
 #include <SDL2/SDL_image.h>
 
 
-class Background
+;class Background
 {
 public:
     Background();
     ~Background();
-    void carregarFundo(char caminho);
+    void carregarFundo(char caminho, SDL_Renderer * ren);
 private:
-    SDL_Renderer * renderizador;
     SDL_Surface * imagem;
     SDL_Texture * textura;
-}
+};
