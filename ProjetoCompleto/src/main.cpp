@@ -13,6 +13,7 @@ int main(int argc, char* args[])
     //Coloca imagem e os efeitos
     janela.claro();
     janela.tela();
+    janela.carregarTextura();
     //Parte final
     janela.loopjanela();
     janela.limpar();

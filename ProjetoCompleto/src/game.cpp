@@ -28,9 +28,9 @@ void CriarJanela::claro()
     SDL_RenderClear(renderizador);
 }
 
-void Background::carregarFundo("res/fundo.png", renderizador)
+void CriarJanela::carregarTextura()
 {
-
+    fundo->carregarFundo("res/fundo.png", renderizador);
 }
 
 void CriarJanela::loopjanela()
