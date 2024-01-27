@@ -10,6 +10,6 @@ public:
     ~Background();
     void carregarFundo(const char* caminho, SDL_Renderer* ren);
 private:
-    SDL_Surface* imagem;
-    SDL_Texture* textura;
+    //SDL_Surface* imagem;
+    SDL_Texture* imagem;
 };

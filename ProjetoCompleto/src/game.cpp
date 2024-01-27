@@ -7,11 +7,13 @@
 const int SCREEN_WIDTH = 512;
 const int SCREEN_HEIGHT = 512;
 
+Background * imagem;
 
 CriarJanela::CriarJanela(){}
 CriarJanela::~CriarJanela(){}
 void CriarJanela::criar(const char *titulo, int tamW, int tamH)
 {
+    
     janela = SDL_CreateWindow(titulo, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, tamW, tamH, SDL_WINDOW_SHOWN);
     if(janela == NULL){
         std::cout << "Janela com erro, revise!" << SDL_GetError() << std::endl;
@@ -30,7 +32,7 @@ void CriarJanela::claro()
 
 void CriarJanela::carregarTextura()
 {
-    fundo->carregarFundo("res/fundo.png", renderizador);
+   
 }
 
 void CriarJanela::loopjanela()
@@ -48,7 +50,8 @@ void CriarJanela::loopjanela()
 }
 
 void CriarJanela::tela()
-{
+{ 
+    fundo->carregarFundo("res/fundo.png", renderizador);
     SDL_RenderPresent(renderizador);
 }
 
